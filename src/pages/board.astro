@@ -1,0 +1,376 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<meta
+  name="viewport"
+  content="user-scalable=no, width=device-width, initial-scale=1.0"
+/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+
+<Base text="Board" intro="Bulletin">
+  <div class="create">
+    <span class="paperclip"></span>
+    <p>Click here to create a new note</p>
+  </div>
+  <div id="board">
+    <div class="trash">
+      <span></span>
+    </div>
+  </div>
+  <div class="draggable one" draggable="true">
+    <span class="pin"></span>
+    <p class="input" contenteditable="true">
+      <b>I am a note</b>
+      <br />
+      <br />
+      Click on me to edit my text and drag to move me.
+    </p>
+  </div>
+  <div class="draggable two" draggable="true">
+    <span class="pin"></span>
+    <p class="input" contenteditable="true">
+      When you want to remove me, just drag and drop me in the trash bin
+    </p>
+  </div>
+  <div class="draggable three" draggable="true">
+    <span class="pin"></span>
+    <p class="input" contenteditable="true">
+      <b>Checkout the board on mobile, it is fully responsive!</b>
+    </p>
+  </div>
+  <template id="note">
+    <div class="draggable" draggable="true">
+      <span class="pin"></span>
+      <p class="input" contenteditable="true">
+        <b>Groceries</b>
+        <br />
+        - Cheese
+        <br />
+        - Milk
+        <br />
+        - Bread
+        <br />
+        - Meat
+      </p>
+    </div>
+  </template>
+</Base>
+
+<style>
+  :root {
+    touch-action: pan-x pan-y;
+    height: 100%;
+    position: fixed;
+  }
+
+  html,
+  body {
+    overflow: hidden;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  #board {
+    position: fixed;
+    top: 105px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../assets/board.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 0.5px solid var(--text-color);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+
+  .create {
+    top: 105px;
+    left: 5%;
+    z-index: 999;
+    position: absolute;
+    display: inline-block;
+    padding: 10px;
+    padding-left: 30px;
+    background-color: lightyellow;
+    border: 1px solid lightgray;
+    transform: rotate(2deg);
+  }
+
+  .paperclip {
+    top: -20px;
+    left: 0;
+    position: absolute;
+    background-image: url("../assets/paperclip.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 60px;
+    height: 60px;
+    z-index: 999;
+  }
+
+  .create > p {
+    position: relative;
+    display: inline-block;
+    padding: 5px;
+    margin: 0;
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .create:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+  .trash {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+  }
+
+  .trash > span {
+    position: absolute;
+    background-image: url("../assets/recycle-bin.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+    z-index: 999;
+    right: 0;
+    bottom: 0;
+  }
+
+  .draggable {
+    position: absolute;
+    top: 180px;
+    left: 25px;
+    padding: 15px;
+    padding-top: 20px;
+    cursor: move;
+    z-index: 100;
+    background-color: #f6f179;
+    color: black;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 150px;
+    max-width: 250px;
+    max-height: 150px;
+    transform: rotate(-2deg);
+  }
+
+  .draggable.one {
+    left: 50px;
+  }
+
+  .draggable.two {
+    top: 330px;
+    left: 10px;
+  }
+
+  .draggable.three {
+    top: 480px;
+    left: 20px;
+  }
+
+  .pin {
+    background-image: url("../assets/pin.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 999;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 45%;
+    top: 0px;
+  }
+
+  .draggable > p {
+    cursor: text;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    text-wrap: wrap;
+    word-break: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-size: 1.1rem;
+  }
+
+  @media (min-width: 768px) {
+    #board {
+      top: 135px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+    }
+
+    .create {
+      top: 135px;
+      left: 35%;
+      padding: 10px;
+      padding-left: 40px;
+    }
+
+    .paperclip {
+      width: 75px;
+      height: 75px;
+    }
+
+    .create > p {
+      padding: 10px;
+      font-size: 1.1rem;
+    }
+
+    .draggable {
+      top: 150px;
+    }
+
+    .draggable.two {
+      top: 330px;
+      left: 200px;
+    }
+
+    .draggable.three {
+      top: 480px;
+      left: 500px;
+    }
+
+    .trash {
+      width: 220px;
+      height: 220px;
+    }
+
+    .trash > span {
+      width: 125px;
+      height: 125px;
+    }
+  }
+</style>
+
+<script>
+  import { enableDragDropTouch } from "../scripts/dragDropTouch";
+
+  enableDragDropTouch();
+
+  const main = document.getElementById("main") as HTMLElement;
+  const create = document.querySelector(".create") as HTMLElement;
+  const trash = document.querySelector(".trash") as HTMLElement;
+
+  let draggedElement: HTMLElement | null = null;
+  let offsetX: number = 0;
+  let offsetY: number = 0;
+  let trashBinAnimation: Animation | null = null;
+  let shouldAnimateTrashBin = true;
+
+  const handleDragOver = (e: DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer!.dropEffect = "move";
+    if (draggedElement) {
+      draggedElement.style.visibility = "hidden";
+    }
+  };
+
+  const handleDrop = (e: DragEvent) => {
+    e.preventDefault();
+    if (draggedElement) {
+      draggedElement.style.left = `${e.clientX - offsetX}px`;
+      draggedElement.style.top = `${e.clientY - offsetY}px`;
+      draggedElement.style.visibility = "visible";
+      draggedElement = null;
+    }
+  };
+
+  const animateTrashBin = () => {
+    return trash.animate(
+      [
+        { transform: "translate(4px, 4px) rotate(0deg)" },
+        { transform: "translate(-4px, -5px) rotate(-6deg)" },
+        { transform: "translate(-6px, 0px) rotate(6deg)" },
+        { transform: "translate(6px, 5px) rotate(0deg)" },
+        { transform: "translate(4px, -4px) rotate(6deg)" },
+        { transform: "translate(-4px, 5px) rotate(-6deg)" },
+        { transform: "translate(-6px, 4px) rotate(0deg)" },
+        { transform: "translate(6px, 4px) rotate(-6deg)" },
+        { transform: "translate(-4px, -4px) rotate(6deg)" },
+        { transform: "translate(4px, 5px) rotate(0deg)" },
+        { transform: "translate(4px, -5px) rotate(-6deg)" },
+      ],
+      {
+        duration: 1500,
+        iterations: Infinity,
+      }
+    );
+  };
+
+  const handleDragOverToTrash = (e: DragEvent) => {
+    e.preventDefault();
+    if (shouldAnimateTrashBin) {
+      trashBinAnimation = animateTrashBin();
+    }
+    shouldAnimateTrashBin = false;
+  };
+
+  const handleDropToTrash = (e: DragEvent) => {
+    e.preventDefault();
+    if (draggedElement) {
+      draggedElement.remove();
+    }
+    cancelTrashBinAnimation();
+  };
+
+  const handleDragStart = (e: DragEvent) => {
+    const target = e.target as HTMLElement;
+    draggedElement = target;
+    const rect = target.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    e.dataTransfer!.dropEffect = "move";
+  };
+
+  const handleDragEnd = () => {
+    if (draggedElement) {
+      draggedElement.style.visibility = "visible";
+      draggedElement = null;
+    }
+    cancelTrashBinAnimation();
+  };
+
+  const cancelTrashBinAnimation = () => {
+    trashBinAnimation?.cancel();
+    shouldAnimateTrashBin = true;
+  };
+
+  const handleCreate = () => {
+    if (!("content" in document.createElement("template"))) {
+      return;
+    }
+    const template = document.getElementById("note") as HTMLTemplateElement;
+    const clone = template.content.cloneNode(true) as DocumentFragment;
+    main.appendChild(clone);
+  };
+
+  main.addEventListener("dragstart", handleDragStart);
+  main.addEventListener("dragend", handleDragEnd);
+
+  main.addEventListener("dragover", handleDragOver);
+  main.addEventListener("drop", handleDrop);
+
+  trash.addEventListener("dragover", handleDragOverToTrash);
+  trash.addEventListener("dragleave", cancelTrashBinAnimation);
+  trash.addEventListener("drop", handleDropToTrash);
+
+  create.addEventListener("click", handleCreate);
+</script>

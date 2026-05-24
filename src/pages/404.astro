@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base text="404" intro="Oops">
+  <div>
+    <blockquote cite="https://tolkiengateway.net/wiki/Riddle_of_Strider">
+      <p>Not all those who wander are lost.</p>
+      <footer>—Bilbo Baggins, <cite>Riddle of Strider</cite></footer>
+    </blockquote>
+    <p><b>But you are.</b></p>
+    <a href={`/`}> Let's go back home... </a>
+  </div>
+</Base>
+
+<style>
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  div > p {
+    font-size: 1.5rem;
+    margin-top: 35px;
+  }
+
+  div > a {
+    font-size: 1.5rem;
+    margin-top: 10px;
+  }
+
+  blockquote {
+    margin: 0;
+  }
+
+  blockquote p {
+    padding: 15px;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    margin-bottom: 10px;
+  }
+
+  blockquote p::before {
+    content: "\201C";
+  }
+
+  blockquote p::after {
+    content: "\201D";
+  }
+
+  footer {
+    font-size: 0.9rem;
+  }
+</style>

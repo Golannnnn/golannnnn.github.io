@@ -1,0 +1,19 @@
+{
+  "name": "portfolio-v2",
+  "type": "module",
+  "version": "0.0.1",
+  "packageManager": "pnpm@8.6.0",
+  "scripts": {
+    "dev": "astro dev --host",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "astro": "^6.3.7",
+    "sharp": "^0.33.5",
+    "typescript": "^5.9.3"
+  }
+}

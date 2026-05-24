@@ -1,0 +1,83 @@
+---
+import Base from "./Base.astro";
+import type { CollectionEntry } from "astro:content";
+type Props = CollectionEntry<"blog">["data"];
+
+const { title, pubDate } = Astro.props;
+---
+
+<Base text="Post" intro="Enjoy my">
+  <h1>{title}</h1>
+  <time datetime={pubDate.toISOString()}>
+    {
+      pubDate.toLocaleDateString("en-UK", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    }
+  </time>
+  <slot class="slot" />
+  <script src="/src/scripts/copyButton.js"></script>
+</Base>
+
+<style>
+  h1 {
+    margin: 0px;
+    margin-top: 20px;
+    font-size: 1.8rem;
+  }
+
+  :global(h2, h3, h4, h5, h6) {
+    margin-bottom: 0px;
+    padding-top: 10px;
+    margin-top: 30px;
+  }
+
+  :global(h2 > a, h3 > a, h4 > a, h5 > a, h6 > a) {
+    color: var(--text-color);
+    text-decoration: none;
+    position: relative;
+  }
+
+  :global(
+    h2 > a:hover::after,
+    h3 > a:hover::after,
+    h4 > a:hover::after,
+    h5 > a:hover::after,
+    h6 > a:hover::after
+  ) {
+    content: " 🔗";
+    position: absolute;
+    right: -1.5em;
+  }
+
+  :global(p:not(.menu__p)) {
+    margin-top: 10px;
+  }
+
+  time {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: var(--text-color-light);
+    margin-bottom: 20px;
+  }
+
+  .toc-wrapper {
+    position: sticky;
+    top: 0;
+  }
+
+  .toc-wrapper div {
+    position: absolute;
+    right: -300px;
+    top: 15px;
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 2.2rem;
+    }
+  }
+</style>

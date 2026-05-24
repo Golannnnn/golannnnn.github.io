@@ -1,0 +1,123 @@
+html,
+body,
+header *,
+header *::before,
+header *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-wrap: pretty;
+}
+
+html {
+  --bg-color: white;
+  --bg-color-light: rgb(229, 231, 235);
+  --text-color: #0a0c0f;
+  --text-color-light: #5b5b5b;
+  --link-color: #0074d9;
+  --link-color-hover: #003e80;
+  --nav-bg-color: #8ebffb;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --form-bg-color: rgb(33, 122, 158);
+
+  --border-color: #5b5b5b;
+  --form-text-color: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+html.dark {
+  --bg-color: #0e141b;
+  --bg-color-light: rgb(55, 65, 81);
+  --text-color: #ffffff;
+  --text-color-light: #b0b0b0;
+  --link-color: #45a8ff;
+  --link-color-hover: #93cdff;
+  --nav-bg-color: #3b5064;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+  --form-bg-color: #16202b;
+}
+
+button {
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: var(--link-color);
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  text-decoration-thickness: 3px;
+  color: var(--link-color-hover);
+}
+
+a:focus {
+  outline: 2px dashed var(--link-color-hover);
+}
+
+body {
+  width: 100%;
+  max-width: 900px;
+  line-height: 1.4;
+  font: 20px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+.image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.pre-wrapper {
+  position: relative;
+  padding-right: 65px;
+  background-color: rgb(36, 41, 46);
+}
+
+pre {
+  padding: 15px 20px;
+  font-size: 0.9em;
+}
+
+code:not(:has(span)) {
+  /* Your styles here */
+  background-color: var(--bg-color-light);
+  color: var(--text-color);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 7px 12px;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.7em;
+  font-weight: bold;
+}
+
+.copy-btn:hover {
+  background-color: #666;
+}

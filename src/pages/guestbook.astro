@@ -1,0 +1,506 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base text="Tweet" intro="Leave me a">
+  <div class="main">
+    <form action="#" aria-label="Form to submit a message.">
+      <label for="name">Name:</label>
+      <input
+        id="name"
+        type="text"
+        name="name"
+        placeholder="John Doe"
+        autocomplete="name"
+        required
+        aria-required="true"
+        minlength="1"
+        maxlength="30"
+      />
+      <label for="message">Message:</label>
+      <div class="grow-wrap">
+        <textarea
+          id="message"
+          name="message"
+          placeholder="Just saying hi!"
+          required
+          aria-required="true"
+          minlength="1"
+          maxlength="200"
+          rows="1"
+          oninput="this.parentNode.dataset.replicatedValue = this.value"
+        ></textarea>
+      </div>
+      <br />
+      <div id="form-last-row">
+        <div id="emoji-selector-container">
+          <button
+            type="button"
+            class="emoji-selector"
+            aria-labelledby="emoji-selector-txt"
+          >
+            <span class="emoji" role="img" aria-label="grinning face emoji"
+              >😀</span
+            >
+            <p id="emoji-selector-txt">Select emoji</p>
+            <span class="arrow" aria-hidden="true">&#8595;</span>
+          </button>
+          <div class="emojis">
+            <button type="button" class="emoji">😁</button>
+            <button type="button" class="emoji">😊</button>
+            <button type="button" class="emoji">😎</button>
+            <button type="button" class="emoji">🤔</button>
+            <button type="button" class="emoji">😐</button>
+            <button type="button" class="emoji">😮</button>
+            <button type="button" class="emoji">😡</button>
+            <button type="button" class="emoji">🤓</button>
+            <button type="button" class="emoji">🤪</button>
+          </div>
+        </div>
+        <input type="submit" name="submit" value="Submit" />
+      </div>
+    </form>
+    <section id="messages-wrapper" aria-label="Messages." role="contentinfo">
+      <div id="loader-container">
+        <span id="loader"></span>
+        <span id="loader-message">
+          Something went wrong loading the guestbook. Please refresh or try
+          again later.
+        </span>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    margin-top: 30px;
+  }
+
+  form {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px 25px;
+    border: 0.5px solid var(--border-color);
+  }
+
+  label {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  label[for="name"] {
+    margin-top: 5px;
+  }
+
+  label[for="message"] {
+    margin-top: 20px;
+  }
+
+  input[type="text"],
+  textarea,
+  input[type="submit"] {
+    color: var(--text-color);
+    font-size: 1.1rem !important;
+    padding: 10px;
+  }
+
+  input[type="text"] {
+    background-color: transparent;
+    border: none;
+    border: 0.5px solid var(--border-color);
+  }
+
+  .grow-wrap {
+    display: grid;
+  }
+
+  .grow-wrap::after {
+    content: attr(data-replicated-value) " ";
+    white-space: pre-wrap;
+    visibility: hidden;
+  }
+
+  .grow-wrap > textarea {
+    resize: none;
+    overflow: hidden;
+  }
+
+  .grow-wrap > textarea,
+  .grow-wrap::after {
+    padding: 0.6rem;
+    font: inherit;
+    grid-area: 1 / 1 / 2 / 2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    line-height: 25px;
+  }
+
+  textarea {
+    background-color: transparent;
+    border: 0.5px solid var(--border-color);
+  }
+
+  input[type="submit"] {
+    margin-bottom: 5px;
+    margin-right: -10px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    background-color: #0074d9;
+    color: white !important;
+  }
+
+  input[type="submit"]:hover {
+    opacity: 0.8;
+  }
+
+  input[type="submit"]:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  input[type="submit"]:focus,
+  input[type="submit"]:focus-visible,
+  input[type="submit"]:active {
+    outline-color: var(--text-color);
+    outline-width: 2px;
+    outline-offset: 1px;
+    outline-style: dashed;
+  }
+
+  #form-last-row {
+    display: flex;
+    padding: 0 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #emoji-selector-container {
+    align-self: flex-start;
+    margin-left: -10px;
+    position: relative;
+  }
+
+  .emoji-selector {
+    background: unset;
+    padding-left: 5px;
+    border: 1px dashed var(--bg-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .emoji-selector p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    margin-left: -5px;
+  }
+
+  .emoji-selector:hover {
+    cursor: pointer;
+    border: 1px dashed var(--border-color);
+  }
+
+  .emoji-selector:hover .arrow {
+    opacity: 0.5;
+  }
+
+  .arrow {
+    color: var(--text-color);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .userpic {
+    font-size: 2rem;
+  }
+
+  .emojis {
+    display: none;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    position: absolute;
+    top: 60px;
+    left: -20px;
+    width: min-content;
+    padding: 15px 20px;
+    background-color: var(--bg-color);
+    border: 0.5px solid var(--border-color);
+    z-index: 1;
+    gap: 20px;
+  }
+
+  .emojis > button {
+    margin: 0;
+    padding: 0;
+    background: unset;
+    border: none;
+  }
+
+  :global(.emoji) {
+    font-size: 2rem;
+  }
+
+  .emojis > button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+  .open-emojis {
+    display: grid;
+  }
+
+  .open-arrow {
+    transform: rotate(180deg);
+  }
+
+  #messages-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    color: var(--text-color);
+  }
+
+  :global(.message-container) {
+    border: 0.5px solid var(--border-color);
+    padding: 10px 20px 0px 20px;
+  }
+
+  :global(.name) {
+    font-weight: bold;
+  }
+
+  :global(.name-wrapper) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: -20px;
+  }
+
+  #loader-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #loader {
+    align-self: center;
+    width: 40px;
+    height: 40px;
+    border: 5px solid var(--text-color);
+    border-bottom-color: var(--link-color);
+    border-radius: 50%;
+    display: none;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+
+  #loader-message {
+    display: none;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 320px) {
+    #form-last-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 30px;
+    }
+
+    input[type="submit"] {
+      margin-left: -10px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .main {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    form {
+      max-width: 350px;
+    }
+
+    #messages-wrapper {
+      max-width: 450px;
+    }
+  }
+
+  @supports (-moz-appearance: none) {
+    #form-last-row {
+      margin-top: 15px;
+    }
+  }
+</style>
+
+<script>
+  const baseUrl = "https://portfolio-backend-vke0.onrender.com/guestbook";
+
+  interface Message {
+    name: string;
+    message: string;
+    emoji: number;
+  }
+
+  type SuccessResponse = {
+    name: string;
+    message: string;
+    emoji: number;
+  };
+
+  type ErrorResponse = {
+    error: string;
+  };
+
+  type ResponseData = SuccessResponse | ErrorResponse;
+
+  const form: HTMLFormElement = document.querySelector("form")!;
+  const messagesWrapper: HTMLDivElement =
+    document.querySelector("#messages-wrapper")!;
+  const selectedEmoji: HTMLElement = document.querySelector(".emoji")!;
+  const arrow: HTMLElement = document.querySelector(".arrow")!;
+  const emojis: HTMLDivElement = document.querySelector(".emojis")!;
+  const emojiSelector: HTMLDivElement =
+    document.querySelector(".emoji-selector")!;
+  const loaderEl: HTMLSpanElement = document.getElementById("loader")!;
+  const loaderMsg: HTMLSpanElement = document.getElementById("loader-message")!;
+
+  emojiSelector.addEventListener("click", () => {
+    emojis.classList.toggle("open-emojis");
+    arrow.classList.toggle("open-arrow");
+
+    if (arrow.classList.contains("open-arrow")) {
+      setTimeout(() => {
+        (emojis.firstElementChild as HTMLElement)?.focus();
+      }, 0);
+    }
+  });
+
+  emojis.addEventListener("click", (e: Event) => {
+    const target = e.target as HTMLElement;
+    if (target && target.nodeName === "BUTTON") {
+      selectedEmoji.textContent = target.textContent;
+      emojis.classList.toggle("open-emojis");
+      arrow.classList.toggle("open-arrow");
+
+      if (!arrow.classList.contains("open-arrow")) {
+        setTimeout(() => {
+          emojiSelector.focus();
+        }, 0);
+      }
+    }
+  });
+
+  function renderMessage(message: Message) {
+    const messageContainer = document.createElement("div");
+    messageContainer.className = "message-container";
+    messageContainer.setAttribute("aria-label", "Message card.");
+    const nameWrapper = document.createElement("div");
+    nameWrapper.className = "name-wrapper";
+    nameWrapper.setAttribute("aria-label", "Emoji and name.");
+    const emoji = document.createElement("span");
+    emoji.textContent = String.fromCodePoint(message.emoji);
+    emoji.className = "emoji";
+    const name = document.createElement("p");
+    name.className = "name";
+    name.textContent = message.name;
+    const messageEl = document.createElement("p");
+    messageEl.className = "message";
+    messageEl.textContent = message.message;
+    nameWrapper.append(emoji, name);
+    messageContainer.append(nameWrapper, messageEl);
+    messagesWrapper.prepend(messageContainer);
+  }
+
+  async function getPosts() {
+    try {
+      loaderEl.style.display = "inline-block";
+      const response = await fetch(baseUrl);
+      const data: Message[] = await response.json();
+      data.forEach((message: Message) => renderMessage(message));
+      loaderMsg.style.display = "none";
+    } catch {
+      loaderMsg.style.display = "block";
+    } finally {
+      loaderEl.style.display = "none";
+    }
+  }
+
+  getPosts();
+
+  form.addEventListener("submit", handleFormSubmit);
+
+  const submitBtn: HTMLButtonElement =
+    form.querySelector("input[type=submit]")!;
+
+  async function handleFormSubmit(e: SubmitEvent) {
+    e.preventDefault();
+    try {
+      submitBtn.disabled = true;
+      const formData = getFormData(e);
+      await postMessage(formData);
+    } catch {
+      alert("Something went wrong. Please try again later.");
+    } finally {
+      submitBtn.disabled = false;
+    }
+  }
+
+  function getFormData(e: SubmitEvent) {
+    const target = e.target as HTMLFormElement;
+    const emoji = selectedEmoji.textContent!.codePointAt(0) as number;
+    const name = target.elements.namedItem("name") as HTMLInputElement;
+    const message = target.elements.namedItem("message") as HTMLInputElement;
+    return { name: name.value, message: message.value, emoji };
+  }
+
+  async function postMessage(data: Message) {
+    const response = await fetch(`${baseUrl}/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const responseData: ResponseData = await response.json();
+    if ("error" in responseData) {
+      alert(responseData.error);
+    } else {
+      renderMessage(responseData);
+      form.reset();
+    }
+  }
+</script>

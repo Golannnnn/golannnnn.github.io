@@ -1,0 +1,81 @@
+---
+import Base from "../layouts/Base.astro";
+import Bike from "../components/Bike.astro";
+---
+
+<Base text="Golan" intro="👋 Hello, I am">
+  <section class="intro">
+    <p>
+      A <b>full-stack developer</b> with experience among other things in JavaScript,
+      TypeScript, React, React Native, Node.js, MongoDB and PostgreSQL. Using these
+      technologies I develop websites, browser extensions and mobile applications.
+    </p>
+  </section>
+  <footer aria-hidden="true">
+    <Bike />
+  </footer>
+</Base>
+
+<style>
+  .intro {
+    margin-top: 20px;
+  }
+
+  p {
+    font-size: 1.4rem;
+  }
+
+  .link::after {
+    mask-image: url("../assets/external.svg");
+    mask-size: cover;
+    display: inline-block;
+    margin-left: 0.25rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    content: "";
+    background-color: var(--link-color);
+    transform: translateY(0.25rem);
+    transition: transform 0.2s ease;
+  }
+
+  .link:hover::after {
+    transform: translateY(0rem);
+    background-color: var(--link-color-hover);
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 25px;
+  }
+
+  .social {
+    width: fit-content;
+  }
+
+  .social::before {
+    mask-size: cover;
+    display: inline-block;
+    margin-right: 0.5rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    content: "";
+    vertical-align: middle;
+  }
+
+  .github::before {
+    mask-image: url("../assets/github.svg");
+    background-color: var(--text-color);
+  }
+
+  .linkedin::before {
+    background: url("../assets/linkedin.svg") no-repeat center center / contain;
+  }
+
+  @media (min-width: 768px) {
+    footer {
+      display: block;
+    }
+  }
+</style>

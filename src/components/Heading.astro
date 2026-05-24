@@ -1,0 +1,79 @@
+---
+interface Props {
+  text: string;
+  intro?: string;
+}
+
+const { text, intro } = Astro.props;
+const letters: string[] = text.split("");
+---
+
+<div
+  class="heading"
+  role="heading"
+  aria-level="2"
+  aria-label={`${intro ? intro + " " : ""}${text}.`}
+>
+  <p aria-hidden="true">{intro && intro}</p>
+  <div id="letters" role="row" aria-hidden="true">
+    {
+      letters.map((letter) => (
+        <span class="letter" aria-hidden="true">
+          {letter}
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .heading {
+    z-index: 5;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  #letters {
+    transform: translateY(10%);
+  }
+
+  .letter {
+    display: inline-block;
+    border: 0.5px solid var(--border-color);
+    padding: 0 5px;
+    transition: transform 0.2s ease-in-out;
+    transform: skew(-5deg) rotate(-5deg);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 1.3;
+    cursor: default;
+  }
+
+  .letter:hover {
+    transform: skew(10deg) rotate(10deg);
+  }
+
+  @supports (-moz-appearance: none) {
+    .letter {
+      padding-top: 5px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .heading {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .letter {
+      font-size: 2.2rem;
+    }
+  }
+</style>

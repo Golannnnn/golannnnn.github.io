@@ -1,0 +1,44 @@
+---
+import Avatar from "./Avatar.astro";
+import Heading from "./Heading.astro";
+import Navigation from "./Navigation.astro";
+
+const { text, intro } = Astro.props;
+---
+
+<header>
+  <div id="header-top">
+    <Avatar />
+    <Heading text={text} intro={intro} />
+  </div>
+  <div id="header-bottom">
+    <Navigation />
+  </div>
+</header>
+
+<style>
+  header {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    padding: 0 15px;
+  }
+
+  #header-top {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    border-bottom: 0.5px solid var(--border-color);
+  }
+
+  #header-bottom {
+    width: 100%;
+    align-self: flex-end;
+  }
+
+  @media (min-width: 768px) {
+    #header-top {
+      gap: 15px;
+    }
+  }
+</style>

@@ -1,0 +1,147 @@
+---
+
+---
+
+<button class="themeToggle" aria-label="Toggle light mode or dark mode.">
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="sun"
+    color="transparent"
+    aria-hidden="true"
+  >
+    <title>Toggle light mode</title>
+    <path
+      d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12ZM22 12h1M12 2V1M12 23v-1M20 20l-1-1M20 4l-1 1M4 20l1-1M4 4l1 1M1 12h1"
+      stroke="gold"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="moon"
+    color="transparent"
+    aria-hidden="true"
+  >
+    <title>Toggle dark mode</title>
+    <path
+      d="M3 11.5066C3 16.7497 7.25034 21 12.4934 21c3.7275 0 6.9532-2.1482 8.5066-5.2741-8.5066 0-12.72589-4.2193-12.72589-12.7259C5.14821 4.55344 3 7.77915 3 11.5066Z"
+      stroke="#000000"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+  <div class="themeToggle__text__container">
+    <span class="themeToggle__text__light">Light</span>
+    <span class="themeToggle__text__dark">Dark</span>
+  </div>
+</button>
+
+<style>
+  .themeToggle {
+    position: relative;
+    border: none;
+    background: none;
+    padding: 7px 9px 7px 7px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px dashed var(--border-color);
+    transition: border-color 0.3s ease;
+  }
+
+  .themeToggle__p {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--text-color);
+  }
+
+  .themeToggle:hover {
+    cursor: pointer;
+  }
+
+  .themeToggle:hover .sun {
+    fill: #ffd700;
+  }
+
+  .themeToggle:hover .moon {
+    fill: #000000;
+  }
+
+  .sun,
+  .moon {
+    transition: all 0.5s ease-in-out;
+  }
+
+  .sun {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .moon {
+    opacity: 1;
+  }
+
+  .themeToggle__text__container {
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .themeToggle__text__light {
+    display: none;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .themeToggle__text__dark {
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  :global(.dark) .sun {
+    opacity: 1;
+  }
+  :global(.dark) .moon {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  :global(.dark) .themeToggle__text__light {
+    display: block;
+  }
+
+  :global(.dark) .themeToggle__text__dark {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .themeToggle {
+      padding: 5px 7px 5px 5px;
+      border-color: var(--bg-color);
+    }
+
+    .themeToggle:hover {
+      border-color: var(--border-color);
+    }
+  }
+</style>
+
+<script>
+  const element: HTMLElement = document.documentElement;
+  const themeToggle: HTMLElement = document.querySelector(".themeToggle")!;
+
+  function handleToggleClick() {
+    element.classList.toggle("dark");
+
+    const isDark = element.classList.contains("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }
+
+  themeToggle.addEventListener("click", handleToggleClick);
+</script>
