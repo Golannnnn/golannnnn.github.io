@@ -83,9 +83,17 @@ import Bike from "../components/Bike.astro";
 <script>
   const dragger = (() => {
     // saving them in an object to remember their final coordinates
-    let draggedElements = {};
+    let draggedElements: Record<string, { xOffset: number; yOffset: number }> =
+      {};
 
-    let active = {
+    let active: {
+      id: string | null;
+      element: HTMLElement | null;
+      startX: number;
+      startY: number;
+      currentX: number;
+      currentY: number;
+    } = {
       id: null,
       element: null,
       startX: 0,
@@ -95,12 +103,12 @@ import Bike from "../components/Bike.astro";
     };
 
     return {
-      isActive: () => active.id !== null,
-
-      start(event) {
+      start(event: PointerEvent) {
         const { target, clientX, clientY } = event;
 
-        const draggableElement = target.closest(".draggable");
+        const draggableElement = (target as HTMLElement | null)?.closest(
+          ".draggable",
+        ) as HTMLElement | null;
         if (!draggableElement) {
           return;
         }
@@ -131,8 +139,8 @@ import Bike from "../components/Bike.astro";
         };
       },
 
-      move(event) {
-        if (!dragger.isActive()) {
+      move(event: PointerEvent) {
+        if (!active.id || !active.element) {
           return;
         }
 
@@ -142,7 +150,7 @@ import Bike from "../components/Bike.astro";
       },
 
       end() {
-        if (!dragger.isActive()) {
+        if (!active.id || !active.element) {
           return;
         }
 
