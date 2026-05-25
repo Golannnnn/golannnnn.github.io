@@ -14,11 +14,11 @@ const letters: string[] = text.split("");
   aria-level="2"
   aria-label={`${intro ? intro + " " : ""}${text}.`}
 >
-  <p aria-hidden="true">{intro && intro}</p>
+  <p aria-hidden="true" class="draggable">{intro && intro}</p>
   <div id="letters" role="row" aria-hidden="true">
     {
       letters.map((letter) => (
-        <span class="letter" aria-hidden="true">
+        <span role="cell" class="letter draggable" aria-hidden="true">
           {letter}
         </span>
       ))
@@ -45,7 +45,6 @@ const letters: string[] = text.split("");
     display: inline-block;
     border: 0.5px solid var(--border-color);
     padding: 0 5px;
-    transition: transform 0.2s ease-in-out;
     transform: skew(-5deg) rotate(-5deg);
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -53,6 +52,10 @@ const letters: string[] = text.split("");
     font-size: 1.6rem;
     line-height: 1.3;
     cursor: default;
+  }
+
+  .letter:not(.is-dragging) {
+    transition: transform 0.2s ease-in-out;
   }
 
   .letter:hover {

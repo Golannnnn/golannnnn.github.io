@@ -6,7 +6,7 @@
   width="80px"
   height="80px"
   viewBox="50 0 100 100"
-  class="avatar"
+  class="avatar draggable"
   role="img"
 >
   <title>Avatar of my head</title>
@@ -374,10 +374,10 @@
   const html: HTMLElement = document.documentElement;
   const avatar: HTMLElement = document.querySelector(".avatar")!;
   const avatarLeftEye: HTMLElement = document.querySelector(
-    "#svga-group-eyesiriscontrol-left"
+    "#svga-group-eyesiriscontrol-left",
   )!;
   const avatarRightEye: HTMLElement = document.querySelector(
-    "#svga-group-eyesiriscontrol-right"
+    "#svga-group-eyesiriscontrol-right",
   )!;
 
   let avatarCenterX: number;
@@ -424,11 +424,11 @@
 
     avatarLeftEye.setAttribute(
       "transform",
-      `translate(${translationX},${translationY})`
+      `translate(${translationX},${translationY})`,
     );
     avatarRightEye.setAttribute(
       "transform",
-      `translate(${translationX},${translationY})`
+      `translate(${translationX},${translationY})`,
     );
 
     previousTranslationX = translationX;

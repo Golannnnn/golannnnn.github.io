@@ -79,3 +79,94 @@ import Bike from "../components/Bike.astro";
     }
   }
 </style>
+
+<script>
+  const dragger = (() => {
+    // saving them in an object to remember their final coordinates
+    let draggedElements = {};
+
+    let active = {
+      id: null,
+      element: null,
+      startX: 0,
+      startY: 0,
+      currentX: 0,
+      currentY: 0,
+    };
+
+    return {
+      isActive: () => active.id !== null,
+
+      start(event) {
+        const { target, clientX, clientY } = event;
+
+        const draggableElement = target.closest(".draggable");
+        if (!draggableElement) {
+          return;
+        }
+
+        event.preventDefault();
+
+        draggableElement.classList.add("is-dragging");
+
+        let id = draggableElement.getAttribute("data-dragger");
+
+        if (!id) {
+          id = Math.random().toString(36).slice(2, 11);
+          draggableElement.setAttribute("data-dragger", id);
+          draggedElements[id] = { xOffset: 0, yOffset: 0 };
+        }
+
+        draggableElement.setPointerCapture(event.pointerId);
+
+        const { xOffset, yOffset } = draggedElements[id];
+
+        active = {
+          id,
+          element: draggableElement,
+          startX: clientX - xOffset,
+          startY: clientY - yOffset,
+          currentX: xOffset,
+          currentY: yOffset,
+        };
+      },
+
+      move(event) {
+        if (!dragger.isActive()) {
+          return;
+        }
+
+        active.currentX = event.clientX - active.startX;
+        active.currentY = event.clientY - active.startY;
+        active.element.style.transform = `translate3d(${active.currentX}px, ${active.currentY}px, 0)`;
+      },
+
+      end() {
+        if (!dragger.isActive()) {
+          return;
+        }
+
+        draggedElements[active.id] = {
+          xOffset: active.currentX,
+          yOffset: active.currentY,
+        };
+
+        active.element.classList.remove("is-dragging");
+
+        active = {
+          id: null,
+          element: null,
+          startX: 0,
+          startY: 0,
+          currentX: 0,
+          currentY: 0,
+        };
+      },
+    };
+  })();
+
+  document.addEventListener("pointerdown", dragger.start);
+  document.addEventListener("pointermove", dragger.move);
+  document.addEventListener("pointerup", dragger.end);
+  document.addEventListener("pointercancel", dragger.end);
+</script>
